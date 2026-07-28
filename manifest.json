@@ -1,0 +1,16 @@
+{
+  "name": "Five Fields — Personal Task Board",
+  "short_name": "Five Fields",
+  "description": "A minimal, local-first personal task board with exact reminders and offline PWA support.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1c1c1e",
+  "theme_color": "#1c1c1e",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='128' fill='%231c1c1e'/><path d='M384 192A128 128 0 0 0 128 192c0 149-64 192-64 192h384s-64-43-64-192z' fill='%236c8e7e'/><path d='M293 448a43 43 0 0 1-74 0' fill='%236c8e7e'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

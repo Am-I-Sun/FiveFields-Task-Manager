@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Five Fields — Personal Task Board</title>
+<meta name="description" content="A minimal, local-first personal task board with five sections: Dates, Now, Later, Relax, and Backlog."/>
+<meta name="theme-color" content="#1c1c1e"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div id="bg-layer"></div>
+<div id="bg-overlay"></div>
+<input type="file" id="bg-file-input" accept="image/*" style="display:none"/>
+
+<div id="bg-modal" role="dialog" aria-modal="true" aria-label="Background image settings">
+  <div class="modal-box">
+    <div class="modal-title">Background Image</div>
+    <div class="modal-sub">Upload a photo for the board background.</div>
+    <div class="bg-preview" id="bg-preview"><span>Current background</span></div>
+    <div class="upload-zone" id="upload-zone" tabindex="0" role="button" aria-label="Click to select image">
+      <p>Click or drop an image here</p>
+      <small>JPG · PNG · WebP — stored locally in your browser</small>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn danger" id="bg-remove-btn">Remove image</button>
+      <button class="modal-btn" id="bg-close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+  <header id="topbar">
+    <span id="app-title">Five Fields</span>
+    <div class="topbar-right">
+      <span id="date-display"></span>
+      <button class="ghost-btn" id="notif-btn" title="Toggle task reminders">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span id="notif-btn-label">Reminders</span>
+      </button>
+      <button class="ghost-btn" id="bg-open-btn" title="Change background image">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Background
+      </button>
+    </div>
+  </header>
+
+  <main id="board">
+    <section class="column" id="col-dates" data-col="dates">
+      <div class="col-accent"></div>
+      <div class="col-header"><span class="col-title">Dates</span><span class="col-count" id="count-dates"></span></div>
+      <div class="col-sub">Due soon &amp; scheduled</div>
+      <div class="task-list" id="list-dates"></div>
+      <div class="add-area">
+        <div class="add-row">
+          <input type="text" class="add-input" id="input-dates" placeholder="Add a dated task…" autocomplete="off"/>
+          <input type="datetime-local" class="date-pick" id="date-picker" title="Due date &amp; time"/>
+          <button class="add-btn" id="addbtn-dates" title="Add">+</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="column" id="col-now" data-col="now">
+      <div class="col-accent"></div>
+      <div class="col-header"><span class="col-title">Now</span><span class="col-count" id="count-now"></span></div>
+      <div class="col-sub">What you're working on right now</div>
+      <div class="task-list" id="list-now"></div>
+      <div class="add-area">
+        <div class="add-row">
+          <input type="text" class="add-input" id="input-now" placeholder="Add a task…" autocomplete="off"/>
+          <button class="add-btn" id="addbtn-now" title="Add">+</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="column" id="col-later" data-col="later">
+      <div class="col-accent"></div>
+      <div class="col-header"><span class="col-title">Later</span><span class="col-count" id="count-later"></span></div>
+      <div class="col-sub">Planned, not urgent</div>
+      <div class="task-list" id="list-later"></div>
+      <div class="add-area">
+        <div class="add-row">
+          <input type="text" class="add-input" id="input-later" placeholder="Add a task…" autocomplete="off"/>
+          <button class="add-btn" id="addbtn-later" title="Add">+</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="column" id="col-relax" data-col="relax">
+      <div class="col-accent"></div>
+      <div class="col-header"><span class="col-title">Relax</span><span class="col-count" id="count-relax"></span></div>
+      <div class="col-sub">Ideas, reads, quiet thoughts — no pressure</div>
+      <div class="task-list" id="list-relax"></div>
+      <div class="add-area">
+        <div class="add-row">
+          <input type="text" class="add-input" id="input-relax" placeholder="Jot something down…" autocomplete="off"/>
+          <button class="add-btn" id="addbtn-relax" title="Add">+</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="column" id="col-backlog" data-col="backlog">
+      <div class="col-accent"></div>
+      <div class="col-header"><span class="col-title">Backlog</span><span class="col-count" id="count-backlog"></span></div>
+      <div class="col-sub">Everything else — unsorted, unscheduled</div>
+      <div class="task-list" id="list-backlog"></div>
+      <div class="add-area">
+        <div class="add-row">
+          <input type="text" class="add-input" id="input-backlog" placeholder="Dump it here…" autocomplete="off"/>
+          <button class="add-btn" id="addbtn-backlog" title="Add">+</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+
+<script src="script.js"></script>   
+</body>
+</html>
